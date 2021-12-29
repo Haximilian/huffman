@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <fcntl.h>
 #include <string.h>
 #include <sys/queue.h>
@@ -8,41 +9,67 @@
 
 char buffer[BUFFER_SIZE];
 
-// todo: create container type for heap_t
-
 typedef struct heap heap_t;
 struct heap {
-    size_t size;
     int value;
     heap_t* l;
     heap_t* r;
 };
 
+typedef struct box box_t;
+struct box {
+    size_t size;
+    heap_t* root;
+};
+
+// (0, -1), (1, 0), (2, 1), (3, 1), ...
+size_t size_to_height(size_t size) {
+    int h = -1;
+    while (size > 0) {
+        size = size >> 1;
+        h++;
+    }
+    return h;
+}
+
 heap_t* create_heap(int value) {
     heap_t* t = malloc(sizeof(heap_t));
     memset(t, 0, sizeof(heap_t));
+    t->value = value;
     return t;
 }
 
-heap_t* heap_push(heap_t* heap, int value) {
-    if (heap == NULL) {
-        return NULL;
+heap_t** to_insert(box_t* box) {
+    if (box->root == NULL) {
+        return &(box->root);
     }
 
-    heap->size++;
+    heap_t* curr = box->root;
 
-    if (heap->l == NULL) {
-        heap->l = create_heap(value);
-    }
-    
-    if (heap->r == NULL) {
-        heap->r = create_heap(value);
+    // n is equal to or greater than 2
+    size_t n = box->size + 1;
+    size_t h = size_to_height(n);
+
+    for (; h > 1; h--) {
+        int r = (0x1 << (h - 1)) & n;
+        if (r) {
+            curr = curr->r;
+        } else {
+            curr = curr->l;
+        }
     }
 
-    if (heap->l->size == heap->r->size) {
-        return heap_push(heap->l, value);
+    if (n & 0x1) {
+        return &(curr->r);
+    } else {
+        return &(curr->l);
     }
+}
 
+
+void insert_value(box_t* box, int value) {
+    *to_insert(box) = create_heap(value);
+    box->size++;
 }
 
 struct _qvertex {
@@ -97,12 +124,21 @@ int main(int argc, char** argv) {
     buffer[size] = '\0';
     printf("%s\n", buffer);
 
-    heap_t d = {0, 5, NULL, NULL};
-    heap_t c = {0, 28, &d, NULL};
-    heap_t b = {0, 21, NULL, NULL};
-    heap_t a = {0, 234, &c, &b};
+    box_t box = {0, NULL};
 
-    print_heap(&a);
+    insert_value(&box, 1);
+    insert_value(&box, 2);
+    insert_value(&box, 3);
+    insert_value(&box, 4);
+    insert_value(&box, 5);
+    insert_value(&box, 6);
+    insert_value(&box, 7);
+    insert_value(&box, 8);
+    insert_value(&box, 9);
+    insert_value(&box, 10);
+    insert_value(&box, 11);
+
+    print_heap(box.root);
     
     return 0;
 }
