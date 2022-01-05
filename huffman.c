@@ -1,9 +1,9 @@
+#include "heap.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <fcntl.h>
 #include <string.h>
-#include <sys/queue.h>
 
 #define BUFFER_SIZE 1024
 #define CHAR_SIZE 128
@@ -16,18 +16,29 @@ int main(int argc, char** argv) {
     int size = read(fd, buffer, BUFFER_SIZE);
     buffer[size] = '\0';
 
-    int frequency[CHAR_SIZE];
-    memset(frequency, 0, CHAR_SIZE * sizeof(int));
+    int freq_table[CHAR_SIZE];
+    memset(freq_table, 0, CHAR_SIZE * sizeof(int));
 
     for (int i = 0; i < size; i++) {
-        frequency[buffer[i]]++;
+        freq_table[buffer[i]]++;
+    }
+
+    heap_t* heap = create_heap(CHAR_SIZE);
+
+    for (unsigned char i = 0; i < CHAR_SIZE; i++) {
+        element_t e;
+        e.ch = i;
+        e.freq = freq_table[i];
+        heap_push(heap, e);
     }
 
     char l[2];
     l[1] = '\0';
-    for (int i = 0; i < CHAR_SIZE; i++) {
-        l[0] = i;
-        printf("%s: %d\n", l, frequency[i]);
+    for (unsigned char i = 0; i < CHAR_SIZE; i++) {
+        element_t t;
+        t = heap_pop(heap);
+        l[0] = t.ch;
+        printf("%s: %d\n", l, t.freq);
     }
     
     return 0;

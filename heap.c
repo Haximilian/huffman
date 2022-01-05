@@ -3,17 +3,17 @@
 #include <stdlib.h>
 
 heap_t* create_heap(int cap) {
-    heap_t* heap = malloc(sizeof(heap_t) + cap * sizeof(int));
+    heap_t* heap = malloc(sizeof(heap_t) + cap * sizeof(element_t));
     heap->size = 0;
     heap->cap = cap;
     return heap;
 }
 
-int elem_to_index(heap_t* heap, int* elem) {
-    return (elem - heap->arr) / sizeof(int);
+int elem_to_index(heap_t* heap, element_t* elem) {
+    return (elem - heap->arr) / sizeof(element_t);
 }
 
-int* heap_push(heap_t* heap, int value) {
+element_t* heap_push(heap_t* heap, element_t value) {
     if (heap->size >= heap->cap) {
         return(0);
     }
@@ -24,7 +24,7 @@ int* heap_push(heap_t* heap, int value) {
     while (curr != 0) {
         parent = (curr - 1) / 2;
 
-        if (heap->arr[parent] > heap->arr[curr]) {
+        if (heap->arr[parent].freq > heap->arr[curr].freq) {
             break;
         } else {
             heap->arr[curr] = heap->arr[parent];
@@ -41,13 +41,13 @@ void _bubble_down(heap_t* heap, int curr) {
     int l;
     int r;
     int large;
-    int t;
+    element_t t;
     for (;;) {
         l = curr * 2 + 1;
         r = curr * 2 + 2;
 
         if (l < heap->size && r < heap->size) {
-            if (heap->arr[l] > heap->arr[r]) {
+            if (heap->arr[l].freq > heap->arr[r].freq) {
                 large = l;
             } else {
                 large = r;
@@ -62,7 +62,7 @@ void _bubble_down(heap_t* heap, int curr) {
             break;
         }
 
-        if (heap->arr[curr] <= heap->arr[large]) {
+        if (heap->arr[curr].freq <= heap->arr[large].freq) {
             t = heap->arr[large];
             heap->arr[large] = heap->arr[curr];
             heap->arr[curr] = t;
@@ -74,29 +74,16 @@ void _bubble_down(heap_t* heap, int curr) {
     }
 }
 
-int heap_pop(heap_t* heap) {
+element_t heap_pop(heap_t* heap) {
+    element_t to_return = {0, 0};
     if (heap->size == 0) {
-        return(-1);
+        return(to_return);
     }
 
-    int to_return = heap->arr[0];
+    to_return = heap->arr[0];
     heap->arr[0] = heap->arr[--heap->size];
 
     _bubble_down(heap, 0);
 
     return(to_return);
-}
-
-int* heap_update(heap_t* heap, int* elem, int value) {
-    if (heap->size == 0) {
-        return(0);
-    }
-
-    *elem = heap->arr[--heap->size];
-
-    int curr = elem_to_index(heap, elem);
-
-    _bubble_down(heap, curr);
-
-    return heap_push(heap, value);
 }
