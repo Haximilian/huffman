@@ -32,6 +32,32 @@ size_t size_to_height(size_t size) {
     return h;
 }
 
+void heapify(heap_t** root) {
+    heap_t* t = NULL;
+
+    if ((*root)->l != NULL && (*root)->r != NULL) {
+        if ((*root)->l->value < (*root)->r->value) {
+            t = (*root)->r; 
+        } else {
+            t = (*root)->l;
+        }
+    }
+
+    if ((*root)->l != NULL && (*root)->r == NULL) {
+        t = (*root)->l;
+    }
+
+    if ((*root)->l == NULL && (*root)->r == NULL) {
+        return;
+    }
+
+    if (t != NULL && (*root)->value < t->value) {
+        int r_value = (*root)->value;
+        (*root)->value = t->value;
+        t->value = r_value;
+    }
+}
+
 heap_t* create_heap(int value) {
     heap_t* t = malloc(sizeof(heap_t));
     memset(t, 0, sizeof(heap_t));
