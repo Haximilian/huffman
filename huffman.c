@@ -45,19 +45,16 @@ int main(int argc, char** argv) {
     heap_t* heap = create_heap(CHAR_SIZE);
 
     for (unsigned char i = 0; i < CHAR_SIZE; i++) {
-        element_t e;
-        e.ch = i;
-        e.freq = freq_table[i];
-        heap_push(heap, e);
+        element_t t;
+        t.ch = i;
+        t.freq = freq_table[i];
+        heap_push(heap, t);
     }
 
-    char l[2];
-    l[1] = '\0';
     for (unsigned char i = 0; i < CHAR_SIZE; i++) {
         element_t t;
         t = heap_pop(heap);
-        l[0] = t.ch;
-        printf("%s: %d\n", l, t.freq);
+        printf("%c: %d\n", t.ch, t.freq);
     }
     
     return 0;

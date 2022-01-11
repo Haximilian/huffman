@@ -18,20 +18,17 @@ element_t* heap_push(heap_t* heap, element_t value) {
         return(0);
     }
 
-    heap->arr[heap->size] = value;
     int curr = heap->size++;
-    int parent;
-    while (curr != 0) {
-        parent = (curr - 1) / 2;
+    int parent = (curr - 1) / 2;
 
-        if (heap->arr[parent].freq > heap->arr[curr].freq) {
-            break;
-        } else {
-            heap->arr[curr] = heap->arr[parent];
-            heap->arr[parent] = value;
-        }
+    heap->arr[curr] = value;
+
+    while (curr != 0 && heap->arr[parent].freq > heap->arr[curr].freq) {
+        heap->arr[curr] = heap->arr[parent];
+        heap->arr[parent] = value;
 
         curr = parent;
+        parent = (curr - 1) / 2;
     }
 
     return &(heap->arr[curr]);
@@ -62,7 +59,7 @@ void _bubble_down(heap_t* heap, int curr) {
             break;
         }
 
-        if (heap->arr[curr].freq <= heap->arr[large].freq) {
+        if (heap->arr[curr].freq > heap->arr[large].freq) {
             t = heap->arr[large];
             heap->arr[large] = heap->arr[curr];
             heap->arr[curr] = t;
