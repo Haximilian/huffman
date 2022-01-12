@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 typedef struct element element_t;
 struct element {
     int freq;
@@ -15,4 +17,4 @@ heap_t* create_heap(int cap);
 
 element_t* heap_push(heap_t* heap, element_t value);
 
-element_t heap_pop(heap_t* heap);
+bool heap_pop(heap_t* heap, element_t* r_val);

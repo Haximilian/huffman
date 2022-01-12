@@ -5,7 +5,7 @@
 
 bool validate_min_heap(heap_t* heap) {
     int parent;
-    int curr;
+    int curr = heap->size - 1;
 
     for (; curr > 0; curr--) {
         parent = (curr - 1) / 2;
@@ -16,6 +16,13 @@ bool validate_min_heap(heap_t* heap) {
     }
 
     return true;
+}
+
+void print_heap(heap_t* heap) {
+    for (int i = 0; i < heap->size; i++) {
+        printf("%d, ", heap->arr[i].freq);
+    }
+    printf("\n");
 }
 
 int main(int argc, char** argv) {
@@ -50,10 +57,15 @@ int main(int argc, char** argv) {
     t.freq = 4243;
     heap_push(heap, t);
 
-    if (validate_min_heap(heap)) {
-        printf("success\n");
-    } else {
-        printf("error\n");
+    print_heap(heap);
+    while (heap_pop(heap, &t)) {
+        printf("%c : %d : ", t.ch, t.freq);
+        if (validate_min_heap(heap)) {
+            printf("success\n");
+        } else {
+            printf("error\n");
+        }
+        print_heap(heap);
     }
 
     return(1);

@@ -1,6 +1,7 @@
 #include "heap.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 heap_t* create_heap(int cap) {
     heap_t* heap = malloc(sizeof(heap_t) + cap * sizeof(element_t));
@@ -37,50 +38,49 @@ element_t* heap_push(heap_t* heap, element_t value) {
 void _bubble_down(heap_t* heap, int curr) {
     int l;
     int r;
-    int large;
+    int small;
     element_t t;
     for (;;) {
         l = curr * 2 + 1;
         r = curr * 2 + 2;
 
         if (l < heap->size && r < heap->size) {
-            if (heap->arr[l].freq > heap->arr[r].freq) {
-                large = l;
+            if (heap->arr[l].freq < heap->arr[r].freq) {
+                small = l;
             } else {
-                large = r;
+                small = r;
             }
         }
 
         if (l < heap->size && r >= heap->size) {
-            large = l;
+            small = l;
         }
 
         if (l >= heap->size && r >= heap->size) {
             break;
         }
 
-        if (heap->arr[curr].freq > heap->arr[large].freq) {
-            t = heap->arr[large];
-            heap->arr[large] = heap->arr[curr];
+        if (heap->arr[curr].freq > heap->arr[small].freq) {
+            t = heap->arr[small];
+            heap->arr[small] = heap->arr[curr];
             heap->arr[curr] = t;
 
-            curr = large;
+            curr = small;
         } else {
             break;
         }
     }
 }
 
-element_t heap_pop(heap_t* heap) {
-    element_t to_return = {0, 0};
+bool heap_pop(heap_t* heap, element_t* r_val) {
     if (heap->size == 0) {
-        return(to_return);
+        return(false);
     }
 
-    to_return = heap->arr[0];
+    *r_val = heap->arr[0];
     heap->arr[0] = heap->arr[--heap->size];
 
     _bubble_down(heap, 0);
 
-    return(to_return);
+    return(true);
 }

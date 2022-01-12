@@ -51,9 +51,8 @@ int main(int argc, char** argv) {
         heap_push(heap, t);
     }
 
-    for (unsigned char i = 0; i < CHAR_SIZE; i++) {
-        element_t t;
-        t = heap_pop(heap);
+    element_t t;
+    while (heap_pop(heap, &t)) {
         printf("%c: %d\n", t.ch, t.freq);
     }
     
