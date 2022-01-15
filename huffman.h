@@ -13,7 +13,7 @@ struct huffman {
         struct {
             huffman_t* l;
             huffman_t* r;
-        } child;
+        };
         char ch;
-    } val;
+    };
 };

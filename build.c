@@ -10,7 +10,7 @@ huffman_t* create_ftable() {
     for (char i = 0; i < ASCII_SIZE; i++) {
         ftable[i].freq = 0;
         ftable[i].type = external;
-        ftable[i].val.ch = i;
+        ftable[i].ch = i;
     }
 
     return(ftable);
@@ -31,7 +31,7 @@ huffman_t* build_tree(huffman_t* ftable) {
 
     huffman_t* t;
     while (heap_pop(heap, ((element_t**) &t))) {
-        printf("%c: %d\n", t->val.ch, t->freq);
+        printf("%c: %d\n", t->ch, t->freq);
     }
 
     // temporary

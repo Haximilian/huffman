@@ -32,7 +32,11 @@ int main(int argc, char** argv) {
 
     huffman_t* ftable = create_ftable();
     count_chars(ftable, str);
+    free(str);
+
     build_tree(ftable);
-    
+
+    free(ftable);
+
     return(0);
 }
