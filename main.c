@@ -1,4 +1,5 @@
-#include "heap.h"
+#include "build.h"
+#include "hstring.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,20 +9,14 @@
 
 #define CHAR_SIZE 128
 
-typedef struct m_string m_string_t;
-struct m_string {
-    int size;
-    char str[0];
-};
-
-m_string_t* file_to_string(char* filename) {
+hstring_t* file_to_string(char* filename) {
     struct stat s;
     
     int descriptor = open(filename, O_RDONLY);
 
     fstat(descriptor, &s);
 
-    m_string_t* to_return = malloc(sizeof(m_string_t) + s.st_size + 1);
+    hstring_t* to_return = malloc(sizeof(hstring_t) + s.st_size + 1);
 
     to_return->str[s.st_size] = '\0';
 
@@ -33,28 +28,11 @@ m_string_t* file_to_string(char* filename) {
 int main(int argc, char** argv) {
     char* filename = argv[1];
 
-    m_string_t* str = file_to_string(filename);
+    hstring_t* str = file_to_string(filename);
 
-    int freq_table[CHAR_SIZE];
-    memset(freq_table, 0, CHAR_SIZE * sizeof(int));
-
-    for (int i = 0; i < str->size; i++) {
-        freq_table[str->str[i]]++;
-    }
-
-    heap_t* heap = create_heap(CHAR_SIZE);
-
-    for (unsigned char i = 0; i < CHAR_SIZE; i++) {
-        element_t t;
-        t.ch = i;
-        t.freq = freq_table[i];
-        heap_push(heap, t);
-    }
-
-    element_t t;
-    while (heap_pop(heap, &t)) {
-        printf("%c: %d\n", t.ch, t.freq);
-    }
+    huffman_t* ftable = create_ftable();
+    count_chars(ftable, str);
+    build_tree(ftable);
     
-    return 0;
+    return(0);
 }

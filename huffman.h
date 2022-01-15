@@ -1,7 +1,7 @@
 typedef enum huffman_type huffman_type_t;
 enum huffman_type {
-    internal = 0, 
-    external
+    external = 0, 
+    internal
 };
 
 typedef struct huffman huffman_t;
