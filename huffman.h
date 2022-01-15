@@ -1,4 +1,4 @@
-typedef huffman_type_t;
+typedef enum huffman_type huffman_type_t;
 enum huffman_type {
     internal = 0, 
     external
@@ -7,6 +7,7 @@ enum huffman_type {
 typedef struct huffman huffman_t;
 struct huffman {
     int freq;
+
     huffman_type_t type; 
     union {
         struct {
