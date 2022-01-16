@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -29,11 +30,27 @@ huffman_t* build_tree(huffman_t* ftable) {
         heap_push(heap, (element_t*) &ftable[i]);
     }
 
-    huffman_t* t;
-    while (heap_pop(heap, ((element_t**) &t))) {
-        printf("%c: %d\n", t->ch, t->freq);
+    huffman_t* first;
+    huffman_t* second;
+    while (true) {
+        if (!heap_pop(heap, (element_t**) &first)) {
+            printf("build tree panic\n");
+            exit(EXIT_FAILURE);
+        }
+
+        if (!heap_pop(heap, (element_t**) &second)) {
+            break;
+        }
+
+        huffman_t* root = malloc(sizeof(huffman_t));
+
+        root->freq = first->freq + second->freq;
+        root->type = internal;
+        root->l = first;
+        root->r = second;
+
+        heap_push(heap, (element_t*) root);
     }
 
-    // temporary
-    return(ftable);
+    return(first);
 }
