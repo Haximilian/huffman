@@ -1,0 +1,1 @@
+![](/examples/example.png "example")
