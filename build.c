@@ -54,3 +54,28 @@ huffman_t* build_tree(huffman_t* ftable) {
 
     return(first);
 }
+
+void _build_etable(huffman_t* root, list_t** etable, list_t* curr) {
+    if (root->type == external) {
+        etable[root->ch] = curr;
+    } else if (root->type == internal) {
+        list_t* l = copy_list(curr);
+        list_push(l, false);
+
+        list_t* r = copy_list(curr);
+        list_push(r, true);
+
+        _build_etable(root->l, etable, l);
+        _build_etable(root->r, etable, r);
+    }
+}
+
+list_t** create_etable(huffman_t* root) {
+    list_t** etable = malloc(ASCII_SIZE * sizeof(list_t*));
+
+    list_t* e = create_list();
+
+    _build_etable(root, etable, e);
+
+    return(etable);
+}

@@ -26,23 +26,6 @@ hstring_t* file_to_string(char* filename) {
     return(to_return);
 }
 
-bool encode(huffman_t* tree, char ch) {
-    if (tree->type == internal) {
-        if (encode(tree->l, ch)) {
-            printf("%c : %c\n", ch, '0');
-            return(true);
-        }
-
-        if (encode(tree->r, ch)) {
-            printf("%c : %c\n", ch, '1');
-            return(true);
-        }
-    } else {
-        return(ch == tree->ch);
-    }
-    return(false);
-}
-
 int main(int argc, char** argv) {
     char* filename = argv[1];
 
@@ -54,13 +37,22 @@ int main(int argc, char** argv) {
 
     huffman_t* tree = build_tree(ftable);
 
-    encode(tree, 'a');
-    encode(tree, 'e');
-    encode(tree, 'z');
-    encode(tree, '/');
-    encode(tree, 'Z');
+    list_t** etable = create_etable(tree);
 
     free(ftable);
+
+    for (char i = 0; i < ASCII_SIZE; i++) {
+        list_node_t* curr = etable[i]->head;
+        printf("%c: ", i);
+        for (; curr; curr = curr->next) {
+            if (curr->val) {
+                printf("1");
+            } else {
+                printf("0");
+            }
+        }
+        printf("\n");
+    }
 
     return(0);
 }

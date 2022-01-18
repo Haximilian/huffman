@@ -15,6 +15,6 @@ struct list {
 
 list_t* create_list();
 
-list_t* copy_list();
+list_t* copy_list(list_t* l);
 
 void list_push(list_t* l, bool val);

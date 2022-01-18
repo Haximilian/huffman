@@ -22,7 +22,8 @@ list_t* copy_list(list_t* l) {
 
 void list_push(list_t* l, bool val) {
     list_node_t* t = malloc(sizeof(list_node_t));
-    memset(t, 0, sizeof(list_node_t));
+    t->next = NULL;
+    t->val = val;
 
     if (l->size++) {
         l->tail->next = t;
