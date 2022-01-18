@@ -1,21 +1,28 @@
 #include "list.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 list_t* create_list() {
     list_t* t = malloc(sizeof(list_t));
-
-    t->size = 0;
-    t->head = 0;
-    t->tail = 0;
+    memset(t, 0, sizeof(list_t));
 
     return(t);
 }
 
+list_t* copy_list(list_t* l) {
+    list_t* to_return = create_list();
+
+    for (list_node_t* curr = l->head; curr != NULL; curr = curr->next) {
+        list_push(to_return, curr->val);
+    }
+
+    return(to_return);
+}
+
 void list_push(list_t* l, bool val) {
-    _list_node_t* t = malloc(sizeof(_list_node_t));
-    t->next = 0;
-    t->val = 0;
+    list_node_t* t = malloc(sizeof(list_node_t));
+    memset(t, 0, sizeof(list_node_t));
 
     if (l->size++) {
         l->tail->next = t;
