@@ -20,7 +20,7 @@ list_t* copy_list(list_t* l) {
     return(to_return);
 }
 
-void list_push(list_t* l, bool val) {
+void list_push(list_t* l, char val) {
     list_node_t* t = malloc(sizeof(list_node_t));
     t->next = NULL;
     t->val = val;

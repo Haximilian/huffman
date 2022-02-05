@@ -12,4 +12,6 @@ huffman_t* build_tree(huffman_t* ftable);
 
 list_t** create_etable(huffman_t* root);
 
+
+
 // todo: deallocate tree including ftable
