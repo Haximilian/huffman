@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "string.h"
 #include "build.h"
 #include "heap.h"
 
@@ -17,9 +18,9 @@ huffman_t* create_ftable() {
     return(ftable);
 }
 
-void count_chars(huffman_t* ftable, hstring_t* str) {
-    for (int i = 0; i < str->size; i++) {
-        ftable[str->str[i]].freq++;
+void count_chars(huffman_t* ftable, string_t s) {
+    for (int i = 0; i < get_size(s); i++) {
+        ftable[s[i]].freq++;
     }
 }
 
