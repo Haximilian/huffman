@@ -59,6 +59,14 @@ int main(int argc, char** argv) {
 
     write(outfd, result, get_size(result));
 
+    // serialize...
+
+    // decode...
+    // string_t decoded_string = decode(tree, result);
+
+    // todo:
+    // print out the string...
+
     destroy_string(result);
 
     return(0);
