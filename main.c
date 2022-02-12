@@ -2,6 +2,8 @@
 #include "string.h"
 #include "bit-buffer.h"
 
+#include "decode.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -41,8 +43,6 @@ int main(int argc, char** argv) {
  
     list_t** etable = create_etable(tree);
 
-    free(ftable);
-
     bit_buffer_t* buffer = create_bit_buffer();
 
     for (int i = 0; i < get_size(str); i++) {
@@ -62,10 +62,12 @@ int main(int argc, char** argv) {
     // serialize...
 
     // decode...
-    // string_t decoded_string = decode(tree, result);
+    string_t decoded_string = decode(tree, result);
+
+    free(ftable);
 
     // todo:
-    // print out the string...
+    printf("%.*s\n", get_size(decoded_string), decoded_string);
 
     destroy_string(result);
 

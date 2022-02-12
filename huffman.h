@@ -1,3 +1,6 @@
+#ifndef HUFFMAN
+#define HUFFMAN
+
 typedef enum huffman_type huffman_type_t;
 enum huffman_type {
     external = 0, 
@@ -17,3 +20,5 @@ struct huffman {
         char ch;
     };
 };
+
+#endif
