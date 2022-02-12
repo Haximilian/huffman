@@ -1,13 +1,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 #include "string.h"
 #include "build.h"
 #include "heap.h"
 
 huffman_t* create_ftable() {
-    huffman_t* ftable = malloc(ASCII_SIZE * sizeof(huffman_t));
+    huffman_t* ftable = malloc((2 * ASCII_SIZE - 1) * sizeof(huffman_t));
     
     for (char i = 0; i < ASCII_SIZE; i++) {
         ftable[i].freq = 0;
@@ -27,23 +28,22 @@ void count_chars(huffman_t* ftable, string_t s) {
 huffman_t* build_tree(huffman_t* ftable) {
     heap_t* heap = create_heap(ASCII_SIZE);
 
-    for (char i = 0; i < ASCII_SIZE; i++) {
+    for (int i = 0; i < ASCII_SIZE; i++) {
         heap_push(heap, (element_t*) &ftable[i]);
     }
 
     huffman_t* first;
     huffman_t* second;
-    while (true) {
+    for (int i = 0; i < ASCII_SIZE - 1; i++) {
         if (!heap_pop(heap, (element_t**) &first)) {
-            printf("build tree panic\n");
             exit(EXIT_FAILURE);
         }
 
         if (!heap_pop(heap, (element_t**) &second)) {
-            break;
+            exit(EXIT_FAILURE);
         }
 
-        huffman_t* root = malloc(sizeof(huffman_t));
+        huffman_t* root = &ftable[ASCII_SIZE + i];
 
         root->freq = first->freq + second->freq;
         root->type = internal;
@@ -53,7 +53,14 @@ huffman_t* build_tree(huffman_t* ftable) {
         heap_push(heap, (element_t*) root);
     }
 
-    return(first);
+    huffman_t* to_return;
+    if (!heap_pop(heap, (element_t**) &to_return)) {
+        exit(EXIT_FAILURE);
+    }
+
+    assert(heap->size == 0);
+
+    return(to_return);
 }
 
 void _build_etable(huffman_t* root, list_t** etable, list_t* curr) {
