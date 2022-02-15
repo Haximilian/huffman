@@ -10,7 +10,7 @@ void count_chars(huffman_t* ftable, string_t str);
 
 huffman_t* build_tree(huffman_t* ftable);
 
-list_t** create_etable(huffman_t* root);
+list_t** create_etable(huffman_t* ftable, huffman_t* root);
 
 
 

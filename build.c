@@ -47,8 +47,8 @@ huffman_t* build_tree(huffman_t* ftable) {
 
         root->freq = first->freq + second->freq;
         root->type = internal;
-        root->l = first;
-        root->r = second;
+        root->l = first - ftable;
+        root->r = second - ftable;
 
         heap_push(heap, (element_t*) root);
     }
@@ -63,7 +63,7 @@ huffman_t* build_tree(huffman_t* ftable) {
     return(to_return);
 }
 
-void _build_etable(huffman_t* root, list_t** etable, list_t* curr) {
+void _build_etable(huffman_t* ftable, huffman_t* root, list_t** etable, list_t* curr) {
     if (root->type == external) {
         etable[root->ch] = curr;
     } else if (root->type == internal) {
@@ -73,17 +73,17 @@ void _build_etable(huffman_t* root, list_t** etable, list_t* curr) {
         list_t* r = copy_list(curr);
         list_push(r, true);
 
-        _build_etable(root->l, etable, l);
-        _build_etable(root->r, etable, r);
+        _build_etable(ftable, &ftable[root->l], etable, l);
+        _build_etable(ftable, &ftable[root->r], etable, r);
     }
 }
 
-list_t** create_etable(huffman_t* root) {
+list_t** create_etable(huffman_t* ftable, huffman_t* root) {
     list_t** etable = malloc(ASCII_SIZE * sizeof(list_t*));
 
     list_t* e = create_list();
 
-    _build_etable(root, etable, e);
+    _build_etable(ftable, root, etable, e);
 
     return(etable);
 }

@@ -2,7 +2,7 @@
 
 #include "list.h"
 
-string_t decode(huffman_t* root, string_t s) {
+string_t decode(huffman_t* ftable, huffman_t* root, string_t s) {
     huffman_t* curr = root;
     // todo: replace this with a vector
     // todo: or pass a bit stream to decode
@@ -16,9 +16,9 @@ string_t decode(huffman_t* root, string_t s) {
             }
 
             if (s[i] & (0x80 >> j)) {
-                curr = curr->r;
+                curr = &ftable[curr->r];
             } else {
-                curr = curr->l;
+                curr = &ftable[curr->l];
             }
         }
     }

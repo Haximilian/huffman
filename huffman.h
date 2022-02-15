@@ -1,24 +1,26 @@
+#include <stdint.h>
+
 #ifndef HUFFMAN
 #define HUFFMAN
 
-typedef enum huffman_type huffman_type_t;
-enum huffman_type {
+// assume this is 4 bytes
+typedef enum huffman_type {
     external = 0, 
     internal
-};
+} huffman_type_t;
 
-typedef struct huffman huffman_t;
-struct huffman {
-    int freq;
+typedef struct huffman {
+    uint32_t freq;
 
     huffman_type_t type; 
     union {
+        // initial byte belongs to l and ch
         struct {
-            huffman_t* l;
-            huffman_t* r;
+            uint32_t l;
+            uint32_t r;
         };
         char ch;
     };
-};
+} huffman_t __attribute__ ((aligned(4)));
 
 #endif

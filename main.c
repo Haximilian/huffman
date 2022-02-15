@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 
     huffman_t* tree = build_tree(ftable);
  
-    list_t** etable = create_etable(tree);
+    list_t** etable = create_etable(ftable, tree);
 
     bit_buffer_t* buffer = create_bit_buffer();
 
@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     // serialize...
 
     // decode...
-    string_t decoded_string = decode(tree, result);
+    string_t decoded_string = decode(ftable, tree, result);
 
     free(ftable);
 
