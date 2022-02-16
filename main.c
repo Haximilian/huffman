@@ -55,19 +55,14 @@ int main(int argc, char** argv) {
 
     int outfd = open(out, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU | S_IRWXG);
 
+    serialize(ftable, HUFFMAN_TREE_SIZE);
+    write(outfd, ftable, HUFFMAN_TREE_SIZE * sizeof(huffman_t));
+
     string_t result = to_string(buffer);
 
     write(outfd, result, get_size(result));
 
-    // serialize...
-
-    // decode...
-    string_t decoded_string = decode(ftable, tree, result);
-
     free(ftable);
-
-    // todo:
-    printf("%.*s\n", get_size(decoded_string), decoded_string);
 
     destroy_string(result);
 

@@ -3,12 +3,14 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include <arpa/inet.h>
+
 #include "string.h"
 #include "build.h"
 #include "heap.h"
 
 huffman_t* create_ftable() {
-    huffman_t* ftable = malloc((2 * ASCII_SIZE - 1) * sizeof(huffman_t));
+    huffman_t* ftable = malloc(HUFFMAN_TREE_SIZE * sizeof(huffman_t));
     
     for (char i = 0; i < ASCII_SIZE; i++) {
         ftable[i].freq = 0;
@@ -86,4 +88,14 @@ list_t** create_etable(huffman_t* ftable, huffman_t* root) {
     _build_etable(ftable, root, etable, e);
 
     return(etable);
+}
+
+// this method modifies table inplace
+void serialize(huffman_t* table, size_t size) {
+    for (int i = 0; i < size; i++) {
+        table[i].freq = htonl(table[i].freq);
+        table[i].type = htonl(table[i].type);
+        table[i].l = htonl(table[i].l);
+        table[i].r = htonl(table[i].r);
+    }
 }
