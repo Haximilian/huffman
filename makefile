@@ -1,10 +1,17 @@
-CC=cc
+CC=./AFL/afl-gcc
 CCARGS=-g0
 SOURCES=string.c list.c heap.c build.c decode.c main.c
 
+SHELL := /bin/bash
+
 make: $(SOURCES)
+	pushd ./AFL >/dev/null && make && popd >/dev/null
 	make deflate
 	make inflate
+
+fuzz-deflate:
+	make
+	export AFL_SKIP_CPUFREQ=""; ./AFL/afl-fuzz -i examples/afl -o findings_dir -- ./target/bin/deflate @@
 
 deflate: $(SOURCES)
 	mkdir -p ./target/bin
