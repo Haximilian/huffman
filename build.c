@@ -12,7 +12,7 @@
 huffman_t* create_ftable() {
     huffman_t* ftable = malloc(HUFFMAN_TREE_SIZE * sizeof(huffman_t));
     
-    for (char i = 0; i < ASCII_SIZE; i++) {
+    for (unsigned char i = 0; i < ASCII_SIZE; i++) {
         ftable[i].freq = 0;
         ftable[i].type = external;
         ftable[i].ch = i;

@@ -2,7 +2,7 @@
 #include "string.h"
 #include "list.h"
 
-#define ASCII_SIZE 0x7F
+#define ASCII_SIZE 0xFF
 #define HUFFMAN_TREE_SIZE (2 * ASCII_SIZE - 1)
 
 huffman_t* create_ftable();

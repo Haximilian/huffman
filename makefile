@@ -1,5 +1,6 @@
-CC=./AFL/afl-gcc
-CCARGS=-g0
+# CC=./AFL/afl-gcc
+CC=cc
+CCARGS=-g3
 SOURCES=string.c list.c heap.c build.c decode.c main.c
 
 SHELL := /bin/bash
