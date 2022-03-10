@@ -1,3 +1,6 @@
 [submodule "AFL"]
 	path = AFL
 	url = https://github.com/google/AFL.git
+[submodule "emsdk"]
+	path = emsdk
+	url = git@github.com:emscripten-core/emsdk.git
