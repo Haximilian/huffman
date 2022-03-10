@@ -11,8 +11,6 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#define CHAR_SIZE 128
-
 string_t file_to_string(char* filename) {
     struct stat s;
     
@@ -45,8 +43,8 @@ int main(int argc, char** argv) {
 
     bit_buffer_t* buffer = create_bit_buffer();
 
-    for (int i = 0; i < get_size(str); i++) {
-        bit_buffer_append(buffer, etable[(char) str[i]]);
+    for (size_t i = 0; i < get_size(str); i++) {
+        bit_buffer_append(buffer, etable[(unsigned char) str[i]]);
     }
 
     destroy_string(str);

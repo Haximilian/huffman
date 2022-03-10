@@ -10,20 +10,25 @@
 #include "heap.h"
 
 huffman_t* create_ftable() {
-    huffman_t* ftable = malloc(HUFFMAN_TREE_SIZE * sizeof(huffman_t));
+    huffman_t* table = malloc(HUFFMAN_TREE_SIZE * sizeof(huffman_t));
     
-    for (unsigned char i = 0; i < ASCII_SIZE; i++) {
-        ftable[i].freq = 0;
-        ftable[i].type = external;
-        ftable[i].ch = i;
-    }
+    unsigned char i = 0;
+    do {
+        table[i] = (huffman_t) {
+            .freq = 0,
+            .type = external,
+            .ch = i,
+        };
 
-    return(ftable);
+        i++;
+    } while (i != 0);
+
+    return(table);
 }
 
-void count_chars(huffman_t* ftable, string_t s) {
-    for (int i = 0; i < get_size(s); i++) {
-        ftable[s[i]].freq++;
+void count_chars(huffman_t* table, string_t s) {
+    for (size_t i = 0; i < get_size(s); i++) {
+        table[(unsigned char) s[i]].freq++;
     }
 }
 

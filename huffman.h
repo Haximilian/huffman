@@ -19,7 +19,7 @@ typedef struct huffman {
             uint32_t l;
             uint32_t r;
         };
-        char ch;
+        unsigned char ch;
     };
 } huffman_t __attribute__ ((aligned(4)));
 
