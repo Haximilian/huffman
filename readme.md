@@ -1,7 +1,7 @@
 **Run:**
 ```
 make
-./target/bin/deflate ./examples/example ./compressed-result
+./target/bin/deflate ./examples/macbeth ./compressed-result
 ./target/bin/inflate ./compressed-result > ./uncompressed-result
 vim ./compressed-result ./uncompressed-result
 ```
