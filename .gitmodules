@@ -4,3 +4,6 @@
 [submodule "emsdk"]
 	path = emsdk
 	url = git@github.com:emscripten-core/emsdk.git
+[submodule "cross-origin-server"]
+	path = cross-origin-server
+	url = git@github.com:Haximilian/cross-origin-server.git
