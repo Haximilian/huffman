@@ -6,7 +6,7 @@ SOURCES=string.c list.c heap.c build.c decode.c main.c
 SHELL := /bin/bash
 
 make: $(SOURCES)
-	pushd ./AFL >/dev/null && make && popd >/dev/null
+#	pushd ./AFL >/dev/null && make && popd >/dev/null
 	make deflate
 	make inflate
 

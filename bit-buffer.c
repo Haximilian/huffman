@@ -34,7 +34,7 @@ string_t to_string(bit_buffer_t* buffer) {
         extra = 1;
     }
 
-    string_t t = create_string(buffer->buffer->size);
+    string_t t = create_string(buffer->buffer->size + extra);
     int i = 0;
     for (list_node_t* curr = buffer->buffer->head; curr; curr = curr->next) {
         t[i++] = curr->val;
