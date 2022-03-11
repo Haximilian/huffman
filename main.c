@@ -14,13 +14,13 @@
 string_t file_to_string(char* filename) {
     struct stat s;
     
-    int descriptor = open(filename, O_RDONLY);
+    FILE* descriptor = fopen(filename, "r");
 
-    fstat(descriptor, &s);
+    stat(filename, &s);
 
     string_t to_return = create_string(s.st_size);
 
-    size_t bytes = read(descriptor, to_return, s.st_size);
+    size_t bytes = fread(to_return, 1, s.st_size, descriptor);
     if (bytes != s.st_size) {
         // todo: error handling
         return NULL;
@@ -51,14 +51,14 @@ int main(int argc, char** argv) {
 
     char* out = argv[2];
 
-    int outfd = open(out, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU | S_IRWXG);
+    FILE* outfd = fopen(out, "w+");
 
     serialize(ftable, HUFFMAN_TREE_SIZE);
-    write(outfd, ftable, HUFFMAN_TREE_SIZE * sizeof(huffman_t));
+    fwrite(ftable, 1, HUFFMAN_TREE_SIZE * sizeof(huffman_t), outfd);
 
     string_t result = to_string(buffer);
 
-    write(outfd, result, get_size(result));
+    fwrite(result, get_size(result), 1, outfd);
 
     free(ftable);
 
