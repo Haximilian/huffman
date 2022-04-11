@@ -7,3 +7,6 @@
 [submodule "cross-origin-server"]
 	path = cross-origin-server
 	url = git@github.com:Haximilian/cross-origin-server.git
+[submodule "c_heap"]
+	path = c_heap
+	url = https://github.com/Haximilian/c_heap

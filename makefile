@@ -1,7 +1,7 @@
 # CC=./AFL/afl-gcc
 CC=cc
 CCARGS=-g3
-SOURCES=string.c list.c heap.c build.c decode.c main.c
+SOURCES=string.c list.c c_heap/heap.c build.c decode.c main.c
 
 SHELL := /bin/bash
 
@@ -16,7 +16,7 @@ fuzz-deflate:
 
 deflate: $(SOURCES)
 	mkdir -p ./target/bin
-	$(CC) $(CCARGS) -o ./target/bin/deflate string.c list.c bit-buffer.c heap.c build.c decode.c main.c
+	$(CC) $(CCARGS) -o ./target/bin/deflate string.c list.c bit-buffer.c c_heap/heap.c build.c decode.c main.c
 
 inflate: $(SOURCES) 
 	mkdir -p ./target/bin
