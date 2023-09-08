@@ -7,7 +7,7 @@
 
 #include "string.h"
 #include "build.h"
-#include "c_heap/heap.h"
+#include "heap.h"
 
 huffman_t* create_ftable() {
     huffman_t* table = malloc(HUFFMAN_TREE_SIZE * sizeof(huffman_t));
